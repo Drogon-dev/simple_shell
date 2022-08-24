@@ -1,2 +1,3 @@
-# simple_shell
-Building a simple UNIX shell
+# ALX Simple Shell Project
+
+##Building a simple UNIX shell
