@@ -4,6 +4,8 @@
  * main - main function for shell project
  * @argc: number of command pass
  * @argv: pointer to list of commmands passed
+ * Description: replicates basic shell
+ * Return: 1
  */
 
 int main(int argc __attribute__((unused)),

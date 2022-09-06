@@ -20,7 +20,6 @@ void ctrl_C(int signum)
 char *_get_line(void)
 {
 	int bufSize = READ_BUF, no_read, position = 0;
-
 	char *buffer = malloc(bufSize * sizeof(char));
 	char c;
 
@@ -34,9 +33,6 @@ char *_get_line(void)
 		no_read = read(STDIN_FILENO, &c, 1);
 		if (c == EOF || !no_read)
 		{
-			/* checks if the input is EOT
-				(ctrl+D) and if it is from the terminal
-			*/
 			if (isatty(STDIN_FILENO) == 1)
 			{
 				print_function("\n", STDIN_FILENO);
@@ -122,6 +118,7 @@ char **tokenize(char *str, const char *delim)
 int is_delim_(const char *delimeters, char c)
 {
 	int i = 0;
+
 	if (!delimeters)
 		return (0);
 	while (delimeters[i])
@@ -137,6 +134,7 @@ int is_delim_(const char *delimeters, char c)
  *
  * @command: command to execute
  * @cmd_type: the command type
+ * Description: executes command
  * Return: void
  */
 
@@ -194,6 +192,12 @@ int command_check(char *command)
 	return (INVALID_CMD);
 }
 
+/**
+ * execute - execute
+ * @commands: commands
+ * @cmd_type: the command type
+ * Return: void
+ */
 void execute(char **commands, int cmd_type)
 {
 	void (*func)(char **command);

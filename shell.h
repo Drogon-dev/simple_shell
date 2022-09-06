@@ -20,6 +20,13 @@
 
 extern char **environ;
 
+/**
+ * struct internal_func - Strcuct internal_func
+ * @cmd_name: name
+ * @func: age
+ * Description: This str
+ */
+
 typedef struct internal_func
 {
 	char *cmd_name;
@@ -45,4 +52,4 @@ void *_realloc(void *, int, int);
 
 char *_getenv(char *);
 
-#endif 
+#endif

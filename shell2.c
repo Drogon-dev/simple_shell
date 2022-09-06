@@ -2,16 +2,21 @@
 
 /**
  * print_function - function to print to standard output
- *
  * @var: what to print
  * @fd: destinattion
- * @return number printed
+ * Description: prints like printf
+ * Return: number printed
  */
 int print_function(char *var, int fd)
 {
 	return (write(fd, var, _strlen(var)));
 }
 
+/**
+ * get_func - gets a ffunction
+ * @command: input command
+ * Return: void
+ */
 void (*get_func(char *command))(char **)
 {
 	int i;
