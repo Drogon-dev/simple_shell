@@ -1,37 +1,50 @@
 #include "shell.h"
-
 /**
- * main - main function for shell project
- * @argc: number of command pass
- * @argv: pointer to list of commmands passed
- * Description: replicates basic shell
- * Return: 1
+ * main - entry point
+ * @ac: argument count
+ * @av: argument vector
+ * @envp: environment
+ *
+ * Return: 0
  */
 
-int main(int argc __attribute__((unused)),
-		 char **argv)
+int main(int ac, char **av, char *envp[])
 {
-	char *line;
-	char **args;
-	int cmd_type;
-
-	(void)argv;
-
-	signal(SIGINT, ctrl_C);
-
+	char *line = NULL, *pathcommand = NULL, *path = NULL;
+	size_t bufsize = 0;
+	ssize_t linesize = 0;
+	char **command = NULL, **paths = NULL;
+	(void)envp, (void)av;
+	if (ac < 1)
+		return (-1);
+	signal(SIGINT, handle_signal);
 	while (1)
 	{
-		print_function(" ($) ", STDOUT_FILENO);
-		line = _get_line();
-
-		if (line == NULL)
-		{
-			if (isatty(STDIN_FILENO))
-				break;
-		}
-		args = tokenize(line, DELIM);
-		cmd_type = command_check(args[0]);
-		shell_exec(args, cmd_type);
+		free_buffers(command);
+		free_buffers(paths);
+		free(pathcommand);
+		prompt_user();
+		linesize = getline(&line, &bufsize, stdin);
+	if (linesize < 0)
+		break;
+	info.ln_count++;
+		if (line[linesize - 1] == '\n')
+		line[linesize - 1] = '\0';
+		command = tokenizer(line);
+		if (command == NULL || *command == NULL || **command == '\0')
+			continue;
+		if (checker(command, line))
+		continue;
+		path = find_path();
+		paths = tokenizer(path);
+		pathcommand = test_path(paths, command[0]);
+		if (!pathcommand)
+		perror(av[0]);
+		else
+		execution(pathcommand, command);
 	}
-	return (1);
+	if (linesize < 0 && flags.interactive)
+	write(STDERR_FILENO, "\n", 1);
+	free(line);
+	return (0);
 }
